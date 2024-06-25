@@ -7,7 +7,7 @@
  */
 
 package org.example;
-import java.util.Scanner;
+import java.util.*;
 
 public class BookManager {
     // Instance variables
@@ -93,50 +93,42 @@ public class BookManager {
      * Accepts input on a book's isbn to remove the book from the shelf
      */
     public void searchBook() {
-        System.out.print("Enter keywords, author, or ISBN of a book to search: ");
+        System.out.print("Enter either keywords, author, or ISBN of a book to search: ");
         String searchTerm = myScan.nextLine();
-        var searchResults = shelf.searchItemsByTitle(searchTerm);
 
+        // Search by ISBN or exact match
         LibraryItem searchResult = shelf.searchItemByIdentifier(searchTerm);
-
         if (searchResult != null) {
             System.out.println("Book found: " + searchResult + "\n");
-
-            System.out.println();
-
-        } else {
-            System.out.println("Searching by keywords...");
-
-            if (!searchResults.isEmpty()) {
-
-                System.out.println("Books found:\n");
-
-                for (LibraryItem book : searchResults) {
-                    System.out.println(book);
-                }
-
-                System.out.println();
-
-            } else {
-                // If not found by title, search by author
-                System.out.println("Searching by author...");
-
-                searchResults = shelf.searchItemsByAuthor(searchTerm);
-                if (!searchResults.isEmpty()) {
-
-                    System.out.println("Books found by author '" + searchTerm + "':\n");
-                    for (LibraryItem book : searchResults) {
-                        System.out.println(book);
-                    }
-
-                    System.out.println();
-
-                } else {
-                    System.out.println("Book not found.\n");
-                }
-            }
+            return;
         }
+
+        // Search by title
+        var searchResults = shelf.searchItemsByTitle(searchTerm);
+        if (!searchResults.isEmpty()) {
+            displaySearchResults("Books found:", searchResults);
+            return;
+        }
+
+        // Search by author
+        searchResults = shelf.searchItemsByAuthor(searchTerm);
+        if (!searchResults.isEmpty()) {
+            displaySearchResults("Books found by author '" + searchTerm + "':", searchResults);
+            return;
+        }
+
+        // No results found
+        System.out.println("Book not found.\n");
     }
+
+    private void displaySearchResults(String message, List<LibraryItem> searchResults) {
+        System.out.println(message + "\n");
+        for (LibraryItem book : searchResults) {
+            System.out.println(book);
+        }
+        System.out.println();
+    }
+
 
     public void option(int option) {
         switch (option) {
