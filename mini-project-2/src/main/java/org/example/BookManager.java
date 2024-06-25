@@ -105,7 +105,7 @@ public class BookManager {
             System.out.println();
 
         } else {
-            System.out.println("Searching by title...");
+            System.out.println("Searching by keywords...");
 
             if (!searchResults.isEmpty()) {
 
