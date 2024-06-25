@@ -1,3 +1,10 @@
+/**
+ * This class is the Book class. It stores the
+ * information that makes up the Book object
+ *
+ * @author Erin Beatrice Micaela G. Reyes
+ */
+
 package org.example;
 
 public class Book implements LibraryItem {
