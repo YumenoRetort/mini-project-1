@@ -32,10 +32,10 @@ public class Main {
 
                 bookManager.option(optionInput);
             } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Please enter a number.");
+                System.out.println("\nAn error occurred Invalid input. Please enter a number.\n");
                 myScan.nextLine(); // Clear the scanner buffer
             } catch (Exception e) {
-                System.out.println("An error occurred: " + e.getMessage());
+                System.out.println("\nAn error occurred: " + e.getMessage() + "\n");
                 myScan.nextLine(); // Clear the scanner buffer
             }
 
