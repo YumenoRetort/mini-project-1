@@ -8,7 +8,7 @@
  */
 
 package org.library;
-import org.library.Service.BookManager;
+import org.library.Service.Impl.BookManagerImpl;
 
 import java.util.*;
 
@@ -17,7 +17,7 @@ public class Main {
     public static void main(String[] args) {
 
         // Initialization
-        BookManager bookManager = new BookManager();
+        BookManagerImpl bookManager = new BookManagerImpl();
         Scanner myScan = new Scanner(System.in);
         String loop;
 

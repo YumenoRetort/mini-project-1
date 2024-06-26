@@ -3,8 +3,9 @@ package org.library;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.library.Model.Book;
-import org.library.Service.LibraryItem;
-import org.library.Service.Shelf;
+import org.library.Model.LibraryItem;
+import org.library.Service.Impl.ShelfImpl;
+import org.library.Service.Impl.ShelfImpl;
 
 import java.util.List;
 
@@ -12,11 +13,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ShelfTest {
 
-    private Shelf shelf;
+    private ShelfImpl shelf;
 
     @BeforeEach
     void setUp() {
-        shelf = new Shelf();
+        shelf = new ShelfImpl();
     }
 
     @Test

@@ -7,8 +7,6 @@
 
 package org.library.Model;
 
-import org.library.Service.LibraryItem;
-
 public class Book implements LibraryItem {
     private String title;
     private String author;

@@ -3,7 +3,7 @@ package org.library;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.library.Service.BookManager;
+import org.library.Service.Impl.BookManagerImpl;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -11,13 +11,13 @@ import java.io.InputStream;
 public class MainTest {
 
     private InputStream originalSystemIn;
-    private BookManager bookManager;
+    private BookManagerImpl bookManager;
 
     @BeforeEach
     public void setUp() {
         originalSystemIn = System.in;
 
-        bookManager = new BookManager();
+        bookManager = new BookManagerImpl();
         bookManager.initializeBooks();
     }
 

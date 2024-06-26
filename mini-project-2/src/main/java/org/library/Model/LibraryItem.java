@@ -9,7 +9,7 @@
  * @author Erin Beatrice Micaela G. Reyes
  */
 
-package org.library.Service;
+package org.library.Model;
 
 public interface LibraryItem {
     String getTitle();
