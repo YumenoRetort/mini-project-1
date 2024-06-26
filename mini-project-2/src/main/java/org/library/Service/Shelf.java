@@ -6,7 +6,9 @@
  * @author Erin Beatrice Micaela G. Reyes
  */
 
-package org.example;
+package org.library.Service;
+import org.library.Model.Book;
+
 import java.util.*;
 
 public class Shelf {

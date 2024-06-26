@@ -7,7 +7,9 @@
  * @author Erin Beatrice Micaela G. Reyes
  */
 
-package org.example;
+package org.library;
+import org.library.Service.BookManager;
+
 import java.util.*;
 
 public class Main {
