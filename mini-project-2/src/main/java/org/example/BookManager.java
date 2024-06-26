@@ -40,13 +40,26 @@ public class BookManager {
      * Creates a new Book object to add to the shelf
      */
     public void addBook() {
-        System.out.print("\nBook Title: ");
-        String title = myScan.nextLine();
 
-        System.out.print("Book Author: ");
-        String author = myScan.nextLine();
-
+        String title;
+        String author;
         String isbn;
+
+        System.out.print("\nAdd a Book ");
+        System.out.println("Book Title: ");
+        title = myScan.nextLine();
+
+
+        while (true){
+            System.out.print("Book Author: ");
+            author = myScan.nextLine();
+
+            if(author.matches("[a-zA-Z]+")){
+                break;
+            } else {
+                System.out.println("Numbers are not a valid input for author's name. Please use roman numerals if necessary.\n");
+            }
+        }
 
         while (true) {
             System.out.print("Book ISBN: ");
@@ -69,7 +82,8 @@ public class BookManager {
     }
 
     /**
-     * Accepts input on a book's isbn to remove the book from the shelf
+     * Accepts input on a book's isbn
+     * to remove the book from the shelf
      */
     public void removeBook() {
 
@@ -90,10 +104,11 @@ public class BookManager {
     }
 
     /**
-     * Accepts input on a book's isbn to remove the book from the shelf
+     * Accepts input on a book's keywords, author, or ISBN to search for a book
+     * Prioritizes ISBN > Keywords > Author.
      */
     public void searchBook() {
-        System.out.print("Enter either keywords, author, or ISBN of a book to search: ");
+        System.out.print("\nEnter either keywords, author, or ISBN of a book to search: ");
         String searchTerm = myScan.nextLine();
 
         // Search by ISBN or exact match
@@ -121,6 +136,9 @@ public class BookManager {
         System.out.println("Book not found.\n");
     }
 
+    /**
+     * Prints out the LibraryItems that match with the search input
+     */
     private void displaySearchResults(String message, List<LibraryItem> searchResults) {
         System.out.println(message + "\n");
         for (LibraryItem book : searchResults) {
@@ -129,7 +147,9 @@ public class BookManager {
         System.out.println();
     }
 
-
+    /**
+     * Prints out the LibraryItems that match with the search input
+     */
     public void option(int option) {
         switch (option) {
             case 1:
