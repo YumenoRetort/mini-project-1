@@ -51,7 +51,7 @@ class ShelfTest {
 
     @Test
     void searchItemsByTitle_nonExistingTitle() {
-        List<LibraryItem> results = shelf.searchItemsByTitle("Nonexistent Title");
+        List<LibraryItem> results = shelf.searchItemsByKeywords("Nonexistent Title");
 
         assertTrue(results.isEmpty());
     }
