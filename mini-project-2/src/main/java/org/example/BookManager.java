@@ -46,9 +46,17 @@ public class BookManager {
         String isbn;
 
         System.out.print("\nAdd a Book ");
-        System.out.println("Book Title: ");
-        title = myScan.nextLine();
 
+        while (true){
+            System.out.println("Book Title: ");
+            title = myScan.nextLine();
+
+            if(title.matches("[a-zA-Z\\d+]+")){
+                break;
+            } else {
+                System.out.println("Invalid input for Book title.\n");
+            }
+        }
 
         while (true){
             System.out.print("Book Author: ");
@@ -57,7 +65,7 @@ public class BookManager {
             if(author.matches("[a-zA-Z]+")){
                 break;
             } else {
-                System.out.println("Numbers are not a valid input for author's name. Please use roman numerals if necessary.\n");
+                System.out.println("Invalid input for author's name.\n");
             }
         }
 
@@ -88,7 +96,7 @@ public class BookManager {
     public void removeBook() {
 
         System.out.println("\nTo ensure the integrity and security of the library, we only allow deletion through ISBN\n");
-        System.out.println("Enter [1] to go back and to ensure you have the correct ISBN\n");
+        System.out.println("Enter [1] to go back and to ensure you have the correct ISBN");
         System.out.println("Enter [2] if you have the book's correct ISBN");
 
         String userInput = myScan.nextLine();
@@ -97,7 +105,7 @@ public class BookManager {
             System.out.println("\nReturning to the main menu...");
 
         } else if ("2".equals(userInput)) {
-            System.out.print("Enter the ISBN of the book to remove: ");
+            System.out.print("\nEnter the ISBN of the book to remove: ");
             String isbnToRemove = myScan.nextLine();
             shelf.removeItem(isbnToRemove);
         }
@@ -105,13 +113,12 @@ public class BookManager {
 
     /**
      * Accepts input on a book's keywords, author, or ISBN to search for a book
-     * Prioritizes ISBN > Keywords > Author.
      */
     public void searchBook() {
         System.out.print("\nEnter either keywords, author, or ISBN of a book to search: ");
         String searchTerm = myScan.nextLine();
 
-        // Search by ISBN or exact match
+        // Search by ISBN
         LibraryItem searchResult = shelf.searchItemByIdentifier(searchTerm);
         if (searchResult != null) {
             System.out.println("Book found: " + searchResult + "\n");
@@ -119,7 +126,7 @@ public class BookManager {
         }
 
         // Search by title
-        var searchResults = shelf.searchItemsByTitle(searchTerm);
+        var searchResults = shelf.searchItemsByKeywords(searchTerm);
         if (!searchResults.isEmpty()) {
             displaySearchResults("Books found:", searchResults);
             return;
@@ -128,7 +135,7 @@ public class BookManager {
         // Search by author
         searchResults = shelf.searchItemsByAuthor(searchTerm);
         if (!searchResults.isEmpty()) {
-            displaySearchResults("Books found by author '" + searchTerm + "':", searchResults);
+            displaySearchResults("Books found by author: '" + searchTerm + "':", searchResults);
             return;
         }
 
