@@ -44,7 +44,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>com.example.calculator.Main</mainClass>
+                    <mainClass>org.example.Main</mainClass>
                 </configuration>
             </plugin>
         </plugins>
