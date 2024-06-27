@@ -8,20 +8,22 @@
  */
 
 package org.library;
-import org.library.Service.Impl.BookManagerImpl;
 
-import java.util.*;
+import org.library.controller.LibraryController;
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
 
         // Initialization
-        BookManagerImpl bookManager = new BookManagerImpl();
+        LibraryController libraryController = new LibraryController();
         Scanner myScan = new Scanner(System.in);
         String loop;
 
-        bookManager.initializeBooks();
+        libraryController.initializeBooks();
 
         System.out.print("Hello! Welcome to The Library of Alexandria! \n");
 
@@ -30,11 +32,19 @@ public class Main {
 
             // Main Menu
             try {
-                System.out.print("\nSelect a Function: \nView Books[1], \nAdd a Book [2], \nDelete a Book [3], \nSearch for a Book [4] \n");
+                System.out.print("\n" +
+                        "Select a Function: \n" +
+                        "View Books[1], \n" +
+                        "Add a Book [2], \n" +
+                        "Delete a Book [3], \n" +
+                        "Search for a Book [4] \n" +
+                        "\n");
+                System.out.print("Enter your choice:");
+
                 int optionInput = myScan.nextInt();
                 myScan.nextLine(); // Consume newline character left in the buffer
 
-                bookManager.option(optionInput); // Sends option to BookManager
+                libraryController.option(optionInput); // Sends option to LibraryController
 
             } catch (InputMismatchException e) { // Error Handling
                 System.out.println("\nAn error occurred Invalid input. Please enter a number.\n");

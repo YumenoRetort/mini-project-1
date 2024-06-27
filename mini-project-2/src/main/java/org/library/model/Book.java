@@ -5,7 +5,7 @@
  * @author Erin Beatrice Micaela G. Reyes
  */
 
-package org.library.Model;
+package org.library.model;
 
 public class Book implements LibraryItem {
     private String title;

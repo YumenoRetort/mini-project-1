@@ -2,10 +2,9 @@ package org.library;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.library.Model.Book;
-import org.library.Model.LibraryItem;
-import org.library.Service.Impl.ShelfImpl;
-import org.library.Service.Impl.ShelfImpl;
+import org.library.model.Book;
+import org.library.model.LibraryItem;
+import org.library.service.impl.ShelfImpl;
 
 import java.util.List;
 
