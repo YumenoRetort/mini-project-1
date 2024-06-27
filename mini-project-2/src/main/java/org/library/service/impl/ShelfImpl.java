@@ -6,17 +6,33 @@ import org.library.service.Shelf;
 
 import java.util.*;
 
+/**
+ * Implementation of the Shelf interface that manages library items, specifically books.
+ * Allows addition, removal, and searching of books based on attributes like title and author.
+ * Also supports keyword-based and author-based searches.
+ *
+ * @author Erin Beatrice Micaela G. Reyes
+ * @version 1.0
+ */
 public class ShelfImpl implements Shelf {
     private List<LibraryItem> items;
     private Map<String, LibraryItem> itemsByIdentifier;
     private Map<String, Map<String, List<LibraryItem>>> attributeMaps;
 
+    /**
+     * Constructs a new ShelfImpl instance with empty item lists and attribute maps.
+     */
     public ShelfImpl() {
         this.items = new ArrayList<>();
         this.itemsByIdentifier = new HashMap<>();
         this.attributeMaps = new HashMap<>();
     }
 
+    /**
+     * Adds a library item to the shelf. If the item is a book, it indexes its title and author.
+     *
+     * @param item The library item to add.
+     */
     @Override
     public void addItem(LibraryItem item) {
         if (item instanceof Book) {
@@ -26,16 +42,33 @@ public class ShelfImpl implements Shelf {
         }
     }
 
+    /**
+     * Indexes the attributes of a library item for searching.
+     *
+     * @param item The library item to index.
+     */
     private void indexItemAttributes(LibraryItem item) {
         indexAttribute(item, "title", item.getTitle());
         indexAttribute(item, "author", ((Book) item).getAuthor());
     }
 
+    /**
+     * Indexes a specific attribute of a library item with a given value.
+     *
+     * @param item      The library item to index.
+     * @param attribute The attribute key (e.g., "title", "author").
+     * @param value     The value of the attribute to index.
+     */
     private void indexAttribute(LibraryItem item, String attribute, String value) {
         attributeMaps.computeIfAbsent(attribute, k -> new HashMap<>())
                 .computeIfAbsent(value.toLowerCase(), k -> new ArrayList<>()).add(item);
     }
 
+    /**
+     * Removes a library item from the shelf based on its identifier.
+     *
+     * @param identifier The identifier of the item to remove.
+     */
     @Override
     public void removeItem(String identifier) {
         LibraryItem removedItem = itemsByIdentifier.remove(identifier);
@@ -49,11 +82,23 @@ public class ShelfImpl implements Shelf {
         }
     }
 
+    /**
+     * Removes indexed attributes of a library item.
+     *
+     * @param item The library item whose attributes should be removed.
+     */
     private void removeIndexedAttributes(LibraryItem item) {
         removeAttribute(item, "title", item.getTitle());
         removeAttribute(item, "author", ((Book) item).getAuthor());
     }
 
+    /**
+     * Removes a specific attribute of a library item with a given value.
+     *
+     * @param item      The library item from which to remove the attribute.
+     * @param attribute The attribute key (e.g., "title", "author").
+     * @param value     The value of the attribute to remove.
+     */
     private void removeAttribute(LibraryItem item, String attribute, String value) {
         Map<String, List<LibraryItem>> attributeMap = attributeMaps.get(attribute);
         if (attributeMap != null) {
@@ -67,23 +112,20 @@ public class ShelfImpl implements Shelf {
         }
     }
 
-    @Override
-    public List<LibraryItem> searchItems(String key, String value) {
-        Map<String, List<LibraryItem>> attributeMap = attributeMaps.get(key.toLowerCase());
-        if (attributeMap != null) {
-            List<LibraryItem> result = attributeMap.get(value.toLowerCase());
-            if (result != null) {
-                return new ArrayList<>(result);
-            }
-        }
-        return Collections.emptyList();
-    }
-
+    /**
+     * Searches for a library item based on its unique identifier.
+     *
+     * @param identifier The unique identifier of the item to search for.
+     * @return The library item matching the identifier, or null if not found.
+     */
     @Override
     public LibraryItem searchItemByIdentifier(String identifier) {
         return itemsByIdentifier.get(identifier);
     }
 
+    /**
+     * Displays all items currently on the shelf.
+     */
     @Override
     public void displayItems() {
         if (items.isEmpty()) {
@@ -102,6 +144,12 @@ public class ShelfImpl implements Shelf {
         }
     }
 
+    /**
+     * Searches for library items based on keywords present in their title or author fields.
+     *
+     * @param keywords The keywords to search for, separated by spaces.
+     * @return A list of library items matching the keyword search criteria.
+     */
     public List<LibraryItem> searchItemsByKeywords(String keywords) {
         String[] searchTerms = keywords.toLowerCase().split(" ");
         Set<LibraryItem> resultSet = new HashSet<>();
@@ -121,6 +169,12 @@ public class ShelfImpl implements Shelf {
         return new ArrayList<>(resultSet);
     }
 
+    /**
+     * Searches for library items authored by a specific author.
+     *
+     * @param author The name of the author to search for.
+     * @return A list of library items authored by the specified author.
+     */
     public List<LibraryItem> searchItemsByAuthor(String author) {
         Set<LibraryItem> resultSet = new HashSet<>();
 
