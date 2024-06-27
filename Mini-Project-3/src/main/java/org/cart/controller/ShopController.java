@@ -1,44 +1,32 @@
-package org.example;
+package org.cart.controller;
+
+import org.cart.service.impl.CartImpl;
+import org.cart.service.impl.ShopImpl;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Shop {
-    private Product[] products;
-    private Cart cart;
-    private Scanner scanner;
+/**
+ * Controller class to manage user interactions with the shop.
+ * Handles product selection, cart operations, and displays.
+ */
+public class ShopController {
+    private final ShopImpl shop;
+    private final CartImpl cart;
+    private final Scanner scanner;
 
-    public Shop() {
-        initializeProducts();
-        cart = new Cart();
+    /**
+     * Constructs a new ShopController instance and initializes the shop, cart, and scanner.
+     */
+    public ShopController() {
+        shop = new ShopImpl();
+        cart = new CartImpl();
         scanner = new Scanner(System.in);
     }
 
-    public void initializeProducts() {
-        // Arrays of names and prices
-        String[] names = {"Chicken", "Beef", "Pork", "Lamb", "Salmon"};
-        double[] prices = {100, 120, 130, 140, 150};
-
-        // Initialize the products array
-        products = new Product[names.length];
-
-        // Loop through the arrays to create Product objects
-        for (int i = 0; i < names.length; i++) {
-            products[i] = new Product(names[i], prices[i]);
-        }
-    }
-
-    public Product[] getProducts() {
-        return products;
-    }
-
-    public void displayProducts() {
-        System.out.println("Available Products:");
-        for (int i = 0; i < products.length; i++) {
-            System.out.println((i + 1) + ". " + products[i]);
-        }
-    }
-
+    /**
+     * Displays the main menu and handles user inputs to interact with the shop and cart.
+     */
     public void chooseOption() {
         try {
             int optionInput;
@@ -49,15 +37,16 @@ public class Shop {
 
                 switch (optionInput) {
                     case 1:
-                        displayProducts();
+                        shop.displayProducts();
                         break;
                     case 2:
-                        displayProducts();
+                        shop.displayProducts();
                         System.out.println("Enter the product number to add to the cart:");
                         int addProductIndex = scanner.nextInt() - 1;
                         scanner.nextLine(); // Consume newline
-                        if (addProductIndex >= 0 && addProductIndex < getProducts().length) {
-                            cart.addProduct(getProducts()[addProductIndex]);
+
+                        if (addProductIndex >= 0 && addProductIndex < shop.getProducts().length) {
+                            cart.addProduct(shop.getProducts()[addProductIndex]);
                             System.out.println("Product added to cart.");
                         } else {
                             System.out.println("Invalid product number.");

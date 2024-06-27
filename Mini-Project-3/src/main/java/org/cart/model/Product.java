@@ -1,10 +1,10 @@
-package org.example;
+package org.cart.model;
 
 public class Product {
-    private String name;
-    private double price;
+    private final String name;
+    private final double price;
 
-    public Product(String name, double price) throws IllegalArgumentException  {
+    public Product(String name, double price) throws IllegalArgumentException {
 
         if (price < 0) {
             throw new IllegalArgumentException("Price cannot be negative");

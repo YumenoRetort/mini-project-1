@@ -1,12 +1,15 @@
-package org.example;
+package org.cart.service.impl;
+
+import org.cart.model.Product;
+import org.cart.service.Cart;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cart {
-    private List<Product> products;
+public class CartImpl implements Cart {
+    private final List<Product> products;
 
-    public Cart() {
+    public CartImpl() {
         products = new ArrayList<>();
     }
 

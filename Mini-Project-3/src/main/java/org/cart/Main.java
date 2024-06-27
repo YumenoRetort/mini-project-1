@@ -1,4 +1,6 @@
-package org.example;
+package org.cart;
+
+import org.cart.controller.ShopController;
 
 import java.util.Scanner;
 
@@ -13,7 +15,7 @@ public class Main {
         do {
             loop = ""; // Reset loop
 
-            Shop shop = new Shop();
+            ShopController shop = new ShopController();
             shop.chooseOption();
 
             // Loop Menu

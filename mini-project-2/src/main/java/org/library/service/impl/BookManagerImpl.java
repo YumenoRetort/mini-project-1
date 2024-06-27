@@ -11,9 +11,9 @@ import java.util.List;
  * Provides methods to initialize books, add, remove, search by identifier, keywords, and author,
  * as well as display all books.
  *
- * This class uses ShelfImpl to manage the underlying storage and operations of books.
+ * This class uses ShelfImpl to manage the operations of books.
  *
- * @author [Your Name]
+ * @author Erin Beatrice Micaela G. Reyes
  * @version 1.0
  */
 public class BookManagerImpl implements BookManager {
