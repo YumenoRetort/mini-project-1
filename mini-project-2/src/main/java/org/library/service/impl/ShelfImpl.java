@@ -35,6 +35,7 @@ public class ShelfImpl implements Shelf {
      */
     @Override
     public void addItem(LibraryItem item) {
+
         if (item instanceof Book) {
             items.add(item);
             itemsByIdentifier.put(item.getIdentifier(), item);
