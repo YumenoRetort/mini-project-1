@@ -1,3 +1,10 @@
+package org.library;
+
+import org.library.controller.LibraryController;
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 /**
  * This class is the main class of the program.
  * The program is a simple library management system
@@ -6,14 +13,6 @@
  *
  * @author Erin Beatrice Micaela G. Reyes
  */
-
-package org.library;
-
-import org.library.controller.LibraryController;
-
-import java.util.InputMismatchException;
-import java.util.Scanner;
-
 public class Main {
 
     public static void main(String[] args) {

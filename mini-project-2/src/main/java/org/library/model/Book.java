@@ -1,12 +1,11 @@
+package org.library.model;
+
 /**
  * This class is the Book class. It stores the
  * information that makes up the Book object
  *
  * @author Erin Beatrice Micaela G. Reyes
  */
-
-package org.library.model;
-
 public class Book implements LibraryItem {
     private String title;
     private String author;
