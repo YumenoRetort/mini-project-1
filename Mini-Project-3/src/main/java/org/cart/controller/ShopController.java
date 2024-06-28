@@ -33,7 +33,13 @@ public class ShopController {
         try {
             int optionInput;
             do {
-                System.out.print("\nMain Menu: \nView Products [1], \nAdd a Product to Cart [2], \nDelete a Product from Cart [3], \nView Cart [4], \nFinalize Cart [5] \n");
+                System.out.print("\nMain Menu:" +
+                        "\nView Products [1], " +
+                        "\nAdd a Product to Cart [2], " +
+                        "\nDelete a Product from Cart [3], " +
+                        "\nView Cart [4], " +
+                        "\nFinalize Cart [5] \n\n");
+                System.out.println("Enter Option:");
                 optionInput = scanner.nextInt();
                 scanner.nextLine(); // Consume newline character left in the buffer
 
@@ -41,6 +47,7 @@ public class ShopController {
                     case 1:
                         shop.displayProducts();
                         break;
+
                     case 2:
                         shop.displayProducts();
                         System.out.println("Enter the product number to add to the cart:");
@@ -49,30 +56,34 @@ public class ShopController {
 
                         if (addProductIndex >= 0 && addProductIndex < shop.getProducts().length) {
                             cart.addProduct(shop.getProducts()[addProductIndex]);
-                            System.out.println("Product added to cart.");
+                            System.out.println("\nProduct added to cart.");
                         } else {
-                            System.out.println("Invalid product number.");
+                            System.out.println("\nInvalid product number.");
                         }
                         break;
+
                     case 3:
                         cart.viewCart();
-                        System.out.println("Enter the product number to remove from the cart:");
+                        System.out.println("Enter the product number to remove from the cart:\n");
                         int removeProductIndex = scanner.nextInt() - 1;
                         scanner.nextLine(); // Consume newline
                         if (removeProductIndex >= 0 && removeProductIndex < cart.getProducts().size()) {
                             cart.removeProduct(cart.getProducts().get(removeProductIndex));
-                            System.out.println("Product removed from cart.");
+                            System.out.println("\nProduct removed from cart.");
                         } else {
-                            System.out.println("Invalid product number.");
+                            System.out.println("\nInvalid product number.");
                         }
                         break;
+
                     case 4:
                         cart.viewCart();
                         break;
+
                     case 5:
                         cart.viewCart();
                         System.out.println("Total Price: $" + cart.calculateTotalPrice());
                         break;
+                        
                     default:
                         System.out.println("Invalid option. Please enter a number between 1 and 5.");
                         break;

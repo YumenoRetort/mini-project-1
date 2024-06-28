@@ -4,6 +4,14 @@ import org.cart.controller.ShopController;
 
 import java.util.Scanner;
 
+/**
+ * This is the main class of the simple cart program.
+ * This program allows the user to add and remove
+ * items from a cart. When the cart is finalized,
+ * The program shows the sum of all the products.
+ *
+ * @author Erin Beatrice Micaela G. Reyes
+ */
 public class Main {
 
     public static void main(String[] args) {

@@ -4,7 +4,7 @@ import org.cart.model.Product;
 import org.cart.service.Shop;
 
 /**
- * Represents a shop that contains products.
+ * This is the Shop class. It represents a shop that contains products.
  * Initializes products and provides methods to access them.
  */
 public class ShopImpl implements Shop {
