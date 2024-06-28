@@ -1,5 +1,7 @@
 package org.cart.controller;
 
+import org.cart.service.Cart;
+import org.cart.service.Shop;
 import org.cart.service.impl.CartImpl;
 import org.cart.service.impl.ShopImpl;
 
@@ -11,8 +13,8 @@ import java.util.Scanner;
  * Handles product selection, cart operations, and displays.
  */
 public class ShopController {
-    private final ShopImpl shop;
-    private final CartImpl cart;
+    private final Shop shop;
+    private final Cart cart;
     private final Scanner scanner;
 
     /**

@@ -20,7 +20,7 @@ public class BookManagerImpl implements BookManager {
     private ShelfImpl shelf = new ShelfImpl();
 
     /**
-     * Initializes a predefined set of books and adds them to the shelf during initialization.
+     * Initializes a set of books and adds them to the shelf.
      */
     @Override
     public void initializeBooks() {
