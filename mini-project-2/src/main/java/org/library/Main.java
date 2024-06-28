@@ -24,7 +24,7 @@ public class Main {
 
         libraryController.initializeBooks();
 
-        System.out.print("Hello! Welcome to The Library of Alexandria! \n");
+        System.out.println("Hello! Welcome to The Library of Alexandria! \n");
 
         do {
             loop = ""; // Reset loop
