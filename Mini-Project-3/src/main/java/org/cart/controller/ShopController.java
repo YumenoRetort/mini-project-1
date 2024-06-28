@@ -83,7 +83,7 @@ public class ShopController {
                         cart.viewCart();
                         System.out.println("Total Price: $" + cart.calculateTotalPrice());
                         break;
-                        
+
                     default:
                         System.out.println("Invalid option. Please enter a number between 1 and 5.");
                         break;
