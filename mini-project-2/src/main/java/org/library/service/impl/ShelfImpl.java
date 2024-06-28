@@ -1,193 +1,187 @@
-package org.library.service.impl;
-
-import org.library.model.Book;
-import org.library.model.LibraryItem;
-import org.library.service.Shelf;
-
-import java.util.*;
-
 /**
- * Implementation of the Shelf interface that manages library items, specifically books.
- * Allows addition, removal, and searching of books based on attributes like title and author.
- * Also supports keyword-based and author-based searches.
+ * This class is the Shelf class. It represents a library shelf
+ * that manages various library items. It provides methods to
+ * add, remove, search, and display items.
  *
  * @author Erin Beatrice Micaela G. Reyes
- * @version 1.0
  */
+
+package org.library.service.impl;
+
+import java.util.*;
+import org.library.service.Shelf;
+import org.library.model.LibraryItem;
+import org.library.model.Book;
+
 public class ShelfImpl implements Shelf {
     private List<LibraryItem> items;
     private Map<String, LibraryItem> itemsByIdentifier;
-    private Map<String, Map<String, List<LibraryItem>>> attributeMaps;
+    private Map<String, List<LibraryItem>> itemsByTitle;
+    private Map<String, List<LibraryItem>> itemsByAuthor;
 
     /**
-     * Constructs a new ShelfImpl instance with empty item lists and attribute maps.
+     * Constructor to initialize the Shelf with empty collections.
      */
     public ShelfImpl() {
         this.items = new ArrayList<>();
         this.itemsByIdentifier = new HashMap<>();
-        this.attributeMaps = new HashMap<>();
+        this.itemsByTitle = new HashMap<>();
+        this.itemsByAuthor = new HashMap<>();
     }
 
     /**
-     * Adds a library item to the shelf. If the item is a book, it indexes its title and author.
+     * Method to add an item to the shelf and updates the relevant maps.
      *
-     * @param item The library item to add.
+     * @param item The LibraryItem to be added.
      */
-    @Override
     public void addItem(LibraryItem item) {
+        // Add item to the main list and identifier map
+        items.add(item);
+        itemsByIdentifier.put(item.getIdentifier(), item);
 
+        // Add title to title map, split by words
+        addToHashMapList(itemsByTitle, item.getTitle().toLowerCase().split(" "), item);
+
+        // If the item is a Book, add it to the author map
         if (item instanceof Book) {
-            items.add(item);
-            itemsByIdentifier.put(item.getIdentifier(), item);
-            indexItemAttributes(item);
+            addToHashMapList(itemsByAuthor, ((Book) item).getAuthor().toLowerCase().split(" "), item);
         }
     }
 
     /**
-     * Indexes the attributes of a library item for searching.
+     * Method to add item to hasmhmaps
      *
-     * @param item The library item to index.
+     * @param map The map to update
+     * @param keys The keys to split and add the item under.
+     * @param item The item to add
      */
-    private void indexItemAttributes(LibraryItem item) {
-        indexAttribute(item, "title", item.getTitle());
-        indexAttribute(item, "author", ((Book) item).getAuthor());
+    private void addToHashMapList(Map<String, List<LibraryItem>> map, String[] keys, LibraryItem item) {
+        for (String key : keys) {
+            key = key.trim();
+
+            if (!key.isEmpty()) {
+                map.computeIfAbsent(key, k -> new ArrayList<>()).add(item); // Creates a new key if a matching key is not found
+            }
+        }
     }
 
     /**
-     * Indexes a specific attribute of a library item with a given value.
+     * Method to remove item from shelf
      *
-     * @param item      The library item to index.
-     * @param attribute The attribute key (e.g., "title", "author").
-     * @param value     The value of the attribute to index.
+     * @param identifier The identifier of the library item to be removed
      */
-    private void indexAttribute(LibraryItem item, String attribute, String value) {
-        attributeMaps.computeIfAbsent(attribute, k -> new HashMap<>())
-                .computeIfAbsent(value.toLowerCase(), k -> new ArrayList<>()).add(item);
-    }
-
-    /**
-     * Removes a library item from the shelf based on its identifier.
-     *
-     * @param identifier The identifier of the item to remove.
-     */
-    @Override
     public void removeItem(String identifier) {
+
         LibraryItem removedItem = itemsByIdentifier.remove(identifier);
 
+        // Check for item
         if (removedItem != null) {
             items.remove(removedItem);
-            removeIndexedAttributes(removedItem);
+
+            // Remove instance of words in title from itemsByTitle map
+            removeFromHashMapList(itemsByTitle, removedItem.getTitle().toLowerCase().split(" "), removedItem);
+
+            // If a book, remove instance of author from itemsByAuthor map
+            if (removedItem instanceof Book) {
+                removeFromHashMapList(itemsByAuthor, ((Book) removedItem).getAuthor().toLowerCase().split(" "), removedItem);
+            }
+
             System.out.println("\nItem '" + removedItem.getTitle() + "' removed from the library.\n");
         } else {
-            System.out.println("\nItem with identifier '" + identifier + "' not found. No item removed.\n");
+            System.out.println("\nItem with identifier '" + identifier + "' not found. No item removed.\n"); // No item found
         }
     }
 
     /**
-     * Removes indexed attributes of a library item.
+     * Method to remove items from hashmaps
      *
-     * @param item The library item whose attributes should be removed.
+     * @param map The map to delete from
+     * @param keys The keys to check and delete from
+     * @param item The item to remove
      */
-    private void removeIndexedAttributes(LibraryItem item) {
-        removeAttribute(item, "title", item.getTitle());
-        removeAttribute(item, "author", ((Book) item).getAuthor());
-    }
+    private void removeFromHashMapList(Map<String, List<LibraryItem>> map, String[] keys, LibraryItem item) {
 
-    /**
-     * Removes a specific attribute of a library item with a given value.
-     *
-     * @param item      The library item from which to remove the attribute.
-     * @param attribute The attribute key (e.g., "title", "author").
-     * @param value     The value of the attribute to remove.
-     */
-    private void removeAttribute(LibraryItem item, String attribute, String value) {
-        Map<String, List<LibraryItem>> attributeMap = attributeMaps.get(attribute);
-        if (attributeMap != null) {
-            List<LibraryItem> itemsList = attributeMap.get(value.toLowerCase());
-            if (itemsList != null) {
-                itemsList.remove(item);
-                if (itemsList.isEmpty()) {
-                    attributeMap.remove(value.toLowerCase());
+        for (String key : keys) {
+            key = key.trim();
+            if (map.containsKey(key)) {
+                map.get(key).remove(item);
+                if (map.get(key).isEmpty()) {
+                    map.remove(key);
                 }
             }
         }
     }
 
     /**
-     * Searches for a library item based on its unique identifier.
+     * Method that passes the keywords to the searchItems() method;
      *
-     * @param identifier The unique identifier of the item to search for.
-     * @return The library item matching the identifier, or null if not found.
+     * @param keywords The keywords to search
+     * @return Returns results from searchItem() Method
      */
-    @Override
+    public List<LibraryItem> searchItemsByKeywords(String keywords) {
+        String[] searchTerms = keywords.toLowerCase().split(" ");
+        return searchItems(itemsByTitle, searchTerms);
+    }
+
+    /**
+     * Method that passes the author name to the searchItems() method;
+     *
+     * @param author The author to search
+     * @return Returns results from searchItem() Method
+     */
+    public List<LibraryItem> searchItemsByAuthor(String author) {
+        String[] searchTerms = author.toLowerCase().split(" ");
+        return searchItems(itemsByAuthor, searchTerms);
+    }
+
+    /**
+     * Method that searches for the identifier;
+     *
+     * @param identifier The identifier to search
+     * @return Returns results from the itemsByIdentifier map
+     */
     public LibraryItem searchItemByIdentifier(String identifier) {
         return itemsByIdentifier.get(identifier);
     }
 
     /**
-     * Displays all items currently on the shelf.
+     * Method that searches for keywords and authors
+     *
+     * @param map The map to search in
+     * @param searchTerms The term being searched
+     * @return Returns an ArrayList of results
      */
-    @Override
+    private List<LibraryItem> searchItems(Map<String, List<LibraryItem>> map, String[] searchTerms) {
+        Set<LibraryItem> resultSet = new HashSet<>();
+
+        for (String term : searchTerms) {
+            term = term.trim();
+            if (map.containsKey(term)) {
+                resultSet.addAll(map.get(term));
+            }
+        }
+        return new ArrayList<>(resultSet);
+    }
+
+    /**
+     * Method to print out all items in the library
+     */
     public void displayItems() {
         if (items.isEmpty()) {
             System.out.println("\nNo items in the library.");
         } else {
             System.out.println("\nItems available in the library:\n");
             for (LibraryItem item : items) {
-                System.out.println("Library Item: " + item.getClass().getSimpleName());
-                System.out.println("Title: " + item.getTitle());
-                System.out.println("Identifier: " + item.getIdentifier());
+
                 if (item instanceof Book) {
+                    System.out.println("Library Item: Book");
+                    System.out.println("Title: " + item.getTitle());
                     System.out.println("Author: " + ((Book) item).getAuthor());
+                    System.out.println("Identifier: " + item.getIdentifier());
+                    System.out.println();
                 }
-                System.out.println();
+
             }
         }
-    }
-
-    /**
-     * Searches for library items based on keywords present in their title or author fields.
-     *
-     * @param keywords The keywords to search for, separated by spaces.
-     * @return A list of library items matching the keyword search criteria.
-     */
-    public List<LibraryItem> searchItemsByKeywords(String keywords) {
-        String[] searchTerms = keywords.toLowerCase().split(" ");
-        Set<LibraryItem> resultSet = new HashSet<>();
-
-        for (String term : searchTerms) {
-            term = term.trim();
-            for (Map.Entry<String, Map<String, List<LibraryItem>>> entry : attributeMaps.entrySet()) {
-                if (entry.getKey().equals("title") || entry.getKey().equals("author")) {
-                    List<LibraryItem> itemsList = entry.getValue().get(term);
-                    if (itemsList != null) {
-                        resultSet.addAll(itemsList);
-                    }
-                }
-            }
-        }
-
-        return new ArrayList<>(resultSet);
-    }
-
-    /**
-     * Searches for library items authored by a specific author.
-     *
-     * @param author The name of the author to search for.
-     * @return A list of library items authored by the specified author.
-     */
-    public List<LibraryItem> searchItemsByAuthor(String author) {
-        Set<LibraryItem> resultSet = new HashSet<>();
-
-        for (LibraryItem item : items) {
-            if (item instanceof Book) {
-                Book book = (Book) item;
-                if (book.getAuthor().toLowerCase().contains(author.toLowerCase())) {
-                    resultSet.add(book);
-                }
-            }
-        }
-
-        return new ArrayList<>(resultSet);
     }
 }
